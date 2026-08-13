@@ -8,7 +8,7 @@ remaining prices to local currency by multiplying by 0.31, and round to 2 decima
 
 
 def process_prices(price_map: dict) -> dict:
-    process_1_prices = {k: v for k, v in price_map if v > 0}
+    process_1_prices = {k: v for k, v in price_map.items() if v > 0}
     process_2_prices = {k: v*0.31 for k, v in process_1_prices}
     return process_2_prices
 
@@ -40,11 +40,11 @@ Return these metrics in a clean dictionary.
 def evaluate_grades(scores: list[int]) -> dict:
     all_ge_50 = all(score >= 50 for score in scores)
     any_ge_90 = any(score >= 90 for score in scores)
-    max = max(scores)
-    min = min(scores)
+    maximum = max(scores)
+    minimum = min(scores)
     average = sum(scores)/len(scores)
 
-    return {"all_ge_50": all_ge_50, "any_ge_90": any_ge_90, "average": average}
+    return {"all_ge_50": all_ge_50, "any_ge_90": any_ge_90, "max": maximum, "min": minimum, "average": average}
 
 
 # error handling
@@ -53,6 +53,25 @@ Create a custom exception class InvalidAgeError(Exception).
 Write a function verify_age(age_input) that attempts to convert age_input to an integer 
 inside a try block.
 If conversion fails, catch ValueError and print an error message.
-If integer is $< 18$, raise InvalidAgeError.Use else to print "Access Granted",
-and finally to print "Verification Complete".
+If integer is < 18, raise InvalidAgeError.
+Use else to print "Access Granted", and finally to print "Verification Complete".
 """
+
+
+class InvalidAgeError(Exception):
+    pass
+
+
+def verify_age(age_input):
+    try:
+        age = int(age_input)
+        if age < 18:
+            raise InvalidAgeError("Age is below 18.")
+    except ValueError:
+        print("Invalid input!")
+    except InvalidAgeError:
+        print("Access Denied")
+    else:
+        print("Access Granted")
+    finally:
+        print("Verification Complete")
