@@ -36,3 +36,26 @@ class BankAccount:
             return self._balance
         else:
             raise ValueError("Insufficient funds for transaction execution.")
+
+
+# dunder methods
+
+    """
+    Integrate standard Python magic methods directly inside BankAccount:
+    __repr__(self) -> str: Return a developer-friendly representation string: f"BankAccount(owner='{self.owner}', balance={self._balance:.2f})".
+    __len__(self) -> int: Return the truncated integer portion of the account balance (int(self._balance)).
+    __add__(self, other: "BankAccount") -> "BankAccount": Overload the + operator. Validate that other is an instance of BankAccount, calculate the combined balance, and return a new BankAccount instance with owner="Joint Portfolio Account".
+    """
+
+    def __repr__(self) -> str:
+        return (f"Bank Account (Owner: {self.owner}, Balance: {self._balance}.")
+
+    def __len__(self) -> int:
+        return int(self._balance)
+
+    def __add__(self, other: "BankAccount") -> "BankAccount":
+        if isinstance(other, BankAccount):
+            new_bal = self._balance + other._balance
+            return BankAccount("Joint Portfolio Account", new_bal)
+        else:
+            raise TypeError("Variable is not of BankAccount instance")
