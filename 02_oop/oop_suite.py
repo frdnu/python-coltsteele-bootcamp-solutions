@@ -59,3 +59,33 @@ class BankAccount:
             return BankAccount("Joint Portfolio Account", new_bal)
         else:
             raise TypeError("Variable is not of BankAccount instance")
+
+
+# inheritance and method overriding
+
+"""
+Create a subclass SavingsAccount that inherits from BankAccount:
+Constructor (__init__): Accept owner, balance, and an additional interest_rate (float, default 0.035 / 3.5%). Pass owner and balance to the parent constructor using super().__init__(owner, balance).
+Method Overriding (withdraw): Override the base withdraw(amount) method to enforce a $2.50 withdrawal fee.
+Validate that amount + fee <= _balance.
+Pass the adjusted total (amount + 2.50) up to super().withdraw() to execute the transaction, or raise a ValueError("Insufficient funds to cover withdrawal and $2.50 processing fee.").
+Method (apply_interest): Calculate accrued interest (_balance * interest_rate), invoke self.deposit(interest_amount) to update balance, and return the updated total.
+"""
+
+
+class SavingsAccount(BankAccount):
+    def __init__(self, owner: str, balance=0.0, interest_rate=0.035):
+        super().__init__(owner, balance)
+        self.interest_rate = interest_rate
+
+    def withraw(self, amount: float) -> float:
+        fee = 2.5
+        if amount + fee <= self._balance:
+            super().withraw(amount+fee)
+        else:
+            raise ValueError(
+                "Insufficient funds to cover withdrawal and $2.50 processing fee.")
+
+    def apply_interest(self) -> float:
+        accrued_interest = self._balance * self.interest_rate
+        return self.deposit(accrued_interest)
