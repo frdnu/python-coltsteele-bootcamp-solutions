@@ -12,6 +12,7 @@ Course Decorator 3: double_return
 - Calls the wrapped function and returns a tuple containing its output twice (e.g., res -> (res, res)).
 """
 
+
 import functools
 import time
 
@@ -27,6 +28,16 @@ def speed_test(fn):
     return wrapper
 
 
+def ensure_no_kwargs(fn):
+    @functools.wraps(fn)
+    def wrapper(*args, **kwargs):
+        if kwargs:
+            raise ValueError
+        result = fn(*args, **kwargs)
+        return result
+    return wrapper
+
+
 @speed_test
 def add_list():
     return ([x for x in range(100000)])
@@ -35,6 +46,14 @@ def add_list():
 @speed_test
 def add_gen():
     return (x for x in range(100000))
+
+
+@ensure_no_kwargs
+def add_all_num(*args, **kwargs):
+    sum_args = sum(args)
+    nums = [value for key, value in kwargs.items()]
+    sum_kwargs = sum(nums)
+    return f"args sum: {sum_args}, kwargs sum: {kwargs}"
 
 
 add_list()
