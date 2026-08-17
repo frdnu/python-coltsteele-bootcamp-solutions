@@ -38,6 +38,15 @@ def ensure_no_kwargs(fn):
     return wrapper
 
 
+def double_return(fn):
+    @functools.wraps(fn)
+    def wrapper(*args, **kwargs):
+        result = [fn(*args, **kwargs), fn(*args, **kwargs)]
+
+        return result
+    return wrapper
+
+
 @speed_test
 def add_list():
     return ([x for x in range(100000)])
@@ -54,6 +63,11 @@ def add_all_num(*args, **kwargs):
     nums = [value for key, value in kwargs.items()]
     sum_kwargs = sum(nums)
     return f"args sum: {sum_args}, kwargs sum: {kwargs}"
+
+
+@double_return
+def statement():
+    return ("hello fardeen")
 
 
 add_list()
