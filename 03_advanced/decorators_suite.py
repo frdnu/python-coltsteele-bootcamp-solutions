@@ -32,7 +32,7 @@ def ensure_no_kwargs(fn):
     @functools.wraps(fn)
     def wrapper(*args, **kwargs):
         if kwargs:
-            raise ValueError
+            raise ValueError("NO KWARGS ALLOWED")
         result = fn(*args, **kwargs)
         return result
     return wrapper
@@ -70,5 +70,11 @@ def statement():
     return ("hello fardeen")
 
 
-add_list()
-add_gen()
+if __name__ == "__main__":
+    add_list()
+    add_gen()
+
+    # print(add_all_num(2, 5, 7, a=2, b=2, c=9))
+    print(add_all_num(1, 6, 9))
+
+    print(statement())
