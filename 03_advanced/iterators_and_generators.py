@@ -4,12 +4,10 @@ Implements the iterator protocol (__iter__ and __next__).
 Takes a maximum limit (limit: int) or generates infinite terms if limit is None.
 Defensive check: raise ValueError if limit is provided and < 0.
 Stops iteration via StopIteration once the sequence reaches the limit.
-
-Memory & Performance Profiler: measure_memory_footprint(limit: int)
-Compares a list comprehension returning N items vs. a generator expression producing the same sequence.
-Uses sys.getsizeof() to capture and return the byte sizes of both objects.
-Prints structured system metrics comparing memory consumption.
 """
+
+
+import sys
 
 
 class FibonacciSequence:
@@ -60,3 +58,23 @@ def infinite_prime_generator():
         if isPrime:
             yield count
         count += 1
+
+
+"""
+Memory & Performance Profiler: measure_memory_footprint(limit: int)
+Compares a list comprehension returning N items vs. a generator expression producing the same sequence.
+Uses sys.getsizeof() to capture and return the byte sizes of both objects.
+Prints structured system metrics comparing memory consumption.
+"""
+
+
+def measure_memory_footprint(limit: int):
+
+    mylist = [x for x in range(limit)]
+    mygen = (x for x in range(limit))
+
+    print(sys.getsizeof(mylist))
+    print(sys.getsizeof(mygen))
+
+
+measure_memory_footprint(1999)
