@@ -69,8 +69,6 @@ def verify_age(age_input):
             raise InvalidAgeError("Age is below 18.")
     except ValueError:
         print("Invalid input!")
-    except InvalidAgeError:
-        print("Access Denied")
     else:
         print("Access Granted")
     finally:
