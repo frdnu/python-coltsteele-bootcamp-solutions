@@ -4,17 +4,11 @@ Implements the iterator protocol (__iter__ and __next__).
 Takes a maximum limit (limit: int) or generates infinite terms if limit is None.
 Defensive check: raise ValueError if limit is provided and < 0.
 Stops iteration via StopIteration once the sequence reaches the limit.
-Stateful Generator Function: infinite_prime_generator()
-Generates prime numbers infinitely using yield.
-Must include internal state tracking to evaluate potential primes efficiently (e.g., trial division up to sqrt(n)).
+
 Memory & Performance Profiler: measure_memory_footprint(limit: int)
 Compares a list comprehension returning N items vs. a generator expression producing the same sequence.
 Uses sys.getsizeof() to capture and return the byte sizes of both objects.
 Prints structured system metrics comparing memory consumption.
-Execution Block (if __name__ == "__main__":)
-Instantiate FibonacciSequence and iterate through a bounded sequence.
-Consume the first N primes from infinite_prime_generator() using next().
-Run measure_memory_footprint(1_000_000) and log realistic system diagnostics.
 """
 
 
@@ -43,3 +37,26 @@ class FibonacciSequence:
 
 
 seq1 = FibonacciSequence(5)
+
+
+"""
+Stateful Generator Function: infinite_prime_generator()
+Generates prime numbers infinitely using yield.
+Must include internal state tracking to evaluate potential primes efficiently (e.g., trial division up to sqrt(n)).
+"""
+
+
+def infinite_prime_generator():
+    count = 2
+    while True:
+        sqroot = (int(count ** 0.5))
+        isPrime = True
+        i = 2
+        while (i <= sqroot):
+            if count % i == 0:
+                isPrime = False
+                break
+            i += 1
+        if isPrime:
+            yield count
+        count += 1
